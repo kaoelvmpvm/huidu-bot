@@ -1,0 +1,77 @@
+<!doctype html>
+<html lang="zh-Hant">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="theme-color" content="#16344b">
+  <meta name="description" content="板橋國中閱讀小將｜依班級座號選擇閱讀書籍，逐題查看不同深度的閱讀參考回答。">
+  <title>閱讀小將｜閱讀學習單助手</title>
+  <style>
+    :root{color-scheme:light;--ink:#16344b;--muted:#607483;--blue:#176da5;--line:#d9e6eb;--bg:#f3f8fa;--white:#fff;--pale:#e7f1f6;--accent:#d5ae69;--shadow:0 14px 42px rgba(28,67,85,.09)}
+    *{box-sizing:border-box}body{margin:0;font-family:"Noto Sans TC","PingFang TC","Microsoft JhengHei",system-ui,sans-serif;background:radial-gradient(circle at top left,#e3f2f6 0,transparent 34%),var(--bg);color:var(--ink);line-height:1.75}
+    button,input{font:inherit}button{cursor:pointer}button:disabled{cursor:not-allowed;opacity:.4}
+    .shell{width:min(900px,calc(100% - 32px));margin:0 auto;padding:42px 0 70px}
+    .brand{display:flex;gap:14px;align-items:center;margin-bottom:25px}.mark{display:grid;place-items:center;width:56px;height:56px;border-radius:18px;background:var(--ink);font-size:27px;box-shadow:var(--shadow)}
+    .kicker{font-size:.78rem;letter-spacing:.14em;font-weight:800;color:var(--blue)}h1{font-size:clamp(1.6rem,4vw,2.2rem);margin:0;line-height:1.3;letter-spacing:.03em}
+    .lead{color:var(--muted);margin:8px 0 27px}.panel{background:var(--white);border:1px solid var(--line);border-radius:24px;padding:clamp(20px,4vw,34px);box-shadow:var(--shadow);margin-bottom:20px}
+    .step{display:inline-block;background:var(--pale);color:var(--blue);font-size:.78rem;font-weight:800;letter-spacing:.08em;padding:2px 12px;border-radius:99px;margin-bottom:10px}
+    h2{font-size:1.3rem;margin:0 0 10px}h3{margin:0;font-size:1.08rem}p{margin:.4rem 0 1rem}
+    label{display:block;font-weight:750;margin-bottom:9px}input{width:100%;border:1.5px solid #bbced8;padding:14px 16px;border-radius:13px;outline:none;background:#fff;color:var(--ink);font-size:1.12rem}
+    input:focus{border-color:var(--blue);box-shadow:0 0 0 3px #b7dcf04f}input[readonly]{background:#f6f9fb}
+    .form-row{display:grid;grid-template-columns:1fr auto;gap:12px;align-items:end}.hint,.small{font-size:.88rem;color:var(--muted)}.error{color:#b72c36;font-size:.92rem;min-height:1.2em;margin:6px 0 0}
+    .primary,.secondary{border-radius:12px;border:1px solid transparent;padding:11px 19px;font-weight:800;white-space:nowrap}
+    .primary{background:var(--ink);color:#fff}.primary:hover:not(:disabled){background:#235575}.secondary{background:#f5f9fb;color:var(--ink);border-color:#cbdee7}.secondary:hover:not(:disabled){background:#e9f3f8}
+    .topline{display:flex;justify-content:space-between;align-items:center;gap:10px;flex-wrap:wrap}
+    .identity{background:#f4f8fa;padding:8px 14px;border-radius:12px;color:var(--muted);font-weight:650}
+    .books{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:13px;margin-top:18px}
+    .book{display:block;width:100%;text-align:left;background:#fff;border:1.5px solid #d2e1e7;border-radius:18px;padding:20px;min-height:170px;transition:transform .15s,border-color .15s,box-shadow .15s}
+    .book:hover{transform:translateY(-2px);border-color:var(--blue);box-shadow:0 8px 23px #123c5020}.book:focus-visible,button:focus-visible{outline:3px solid #e0ad52;outline-offset:3px}
+    .book-code{display:inline-block;background:#edf4f7;color:#37667d;border-radius:8px;font-weight:800;padding:1px 9px;font-size:.81rem;margin-bottom:10px}
+    .book strong{display:block;font-size:1.12rem;line-height:1.5;margin-bottom:8px}.book small{color:var(--muted)}
+    .meta{display:flex;flex-wrap:wrap;align-items:center;gap:7px;color:var(--muted);font-size:.92rem}.pill{border-radius:99px;background:#e8f2fa;color:#1b5b86;padding:3px 10px;font-weight:800;font-size:.8rem}
+    .progress{height:7px;border-radius:7px;background:#e6eff3;overflow:hidden;margin:19px 0}.bar{height:100%;background:linear-gradient(90deg,#2e83a7,#4a9d89);width:0;transition:width .2s}
+    .question{background:#f5f9fb;border-left:4px solid #4a93b0;padding:13px 18px;border-radius:0 12px 12px 0;color:#435e70;margin:16px 0}
+    .answer{padding:23px;border-radius:17px;background:#fffdf8;border:1px solid #e9dfc9;min-height:140px;display:flex;align-items:center;position:relative}
+    .answer p{font-size:1.22rem;line-height:2;letter-spacing:.04em;margin:0;white-space:pre-wrap}
+    .answer-cover{background:repeating-linear-gradient(-45deg,#f5f9fb,#f5f9fb 9px,#edf4f7 9px,#edf4f7 18px);display:grid;place-items:center;text-align:center;color:var(--muted)}
+    .count{font-variant-numeric:tabular-nums}.answer-footer,.nav{display:flex;justify-content:space-between;align-items:center;gap:10px;flex-wrap:wrap;margin-top:14px}
+    .refnote{margin:16px 0 4px;background:#f6f9fb;border-radius:13px;padding:13px 16px;font-size:.87rem;color:#586e7b}
+    .disclaimer{border-top:1px solid var(--line);margin-top:24px;padding-top:15px;color:var(--muted);font-size:.87rem}
+    [hidden]{display:none!important}.footer{text-align:center;font-size:.8rem;color:#6d8998;margin-top:27px}
+    @media(max-width:600px){.shell{width:calc(100% - 22px);padding:24px 0 38px}.panel{border-radius:19px}.form-row{grid-template-columns:1fr}.books{grid-template-columns:1fr}.book{min-height:auto;padding:17px}.primary,.secondary{min-height:44px}.nav button{flex:1}.answer p{font-size:1.11rem}.brand{gap:10px}.mark{width:47px;height:47px}}
+    @media(prefers-reduced-motion:reduce){*,*:before,*:after{transition:none!important}}
+    @media print{body{background:white}.shell{width:100%;padding:0}.panel{box-shadow:none;border:0}.nav,.footer,#entry,#bookPanel,.answer-cover button{display:none!important}}
+  </style>
+  <script defer src="data.js"></script>
+  <script defer src="app.js"></script>
+</head>
+<body>
+ <main class="shell">
+  <header class="brand"><div class="mark" aria-hidden="true">📖</div><div><div class="kicker">BANQIAO JUNIOR HIGH · READING</div><h1>閱讀小將｜學習單助手</h1></div></header>
+  <p class="lead">輸入班級座號，挑選指定閱讀書籍，依序查看四個學習階段的參考回答。</p>
+  <section class="panel" id="entry" aria-labelledby="entryTitle">
+   <div class="step">STEP 01</div><h2 id="entryTitle">輸入班級與座號</h2>
+   <form id="studentForm" novalidate><label for="studentId">學生代號</label><div class="form-row"><input id="studentId" type="text" inputmode="numeric" maxlength="5" autocomplete="off" placeholder="例如：81501" aria-describedby="idHelp idError" required><button class="primary" type="submit">確認班級</button></div><p class="hint" id="idHelp">支援 815、816 班，座號 01–99；輸入五位數，不需要姓名。</p><p class="error" id="idError" role="alert"></p></form>
+  </section>
+  <section class="panel" id="bookPanel" hidden aria-labelledby="bookTitle">
+   <div class="topline"><div><div class="step">STEP 02</div><h2 id="bookTitle">挑選閱讀學習單</h2></div><span class="identity" id="studentBadge"></span></div>
+   <p class="small">僅顯示該班指定的兩本書；STAR 與 ORID 會自動對應。</p>
+   <div id="books" class="books"></div><div class="nav"><button class="secondary" id="changeStudent" type="button">更換學生代號</button></div>
+  </section>
+  <section class="panel" id="answerPanel" hidden aria-labelledby="answerTitle">
+   <div class="topline"><span class="step">STEP 03 · 逐題閱讀</span><span class="identity" id="answerStudent"></span></div>
+   <h2 id="answerTitle"></h2><div class="meta"><span id="answerBookCode"></span><span class="pill" id="methodTag"></span><span id="questionNumber"></span></div>
+   <div class="progress" aria-label="作答進度"><div class="bar" id="progressBar"></div></div>
+   <h3 id="stageTitle"></h3><div class="question" id="questionText"></div>
+   <div class="answer answer-cover" id="covered"><div><p><strong>本題參考回答尚未顯示</strong></p><p class="small">先想想你會怎麼回答，再點下方按鈕查看。</p><button class="primary" id="showAnswer" type="button">顯示本題回答</button></div></div>
+   <div class="answer" id="uncovered" hidden><p id="answerText"></p></div>
+   <div class="answer-footer"><span class="small" id="countInfo" aria-live="polite"></span><button class="secondary" type="button" id="copyAnswer" hidden>複製本題回答</button></div>
+   <div class="refnote">頁碼提醒：學習單部分欄位需要註明頁碼，請依你手上的書核對後自行補上。不同版本頁碼可能不同，系統不會編造頁數。</div>
+   <div class="nav"><button type="button" class="secondary" id="previous">上一題</button><button type="button" class="primary" id="next">下一題</button></div>
+   <div class="disclaimer">這裡提供不同角度與深度的閱讀參考示例，不是課本標準答案。請依實際閱讀內容確認細節，並用自己的觀察與想法完成學習單。</div>
+   <div class="nav"><button type="button" class="secondary" id="changeBook">返回選書</button><button type="button" class="secondary" id="restart">重新開始</button></div>
+  </section>
+  <footer class="footer">閱讀小將 · STAR 情境任務分析 × ORID 焦點討論 · 版面支援手機與平板</footer>
+ </main>
+</body>
+</html>
